@@ -57,7 +57,7 @@ public class VideoServiceImpl implements VideoService {
 
             // video meta data
             video.setContentType(contentType);
-            video.setFilePath(path.toString());
+            video.setFilePath(StringUtils.cleanPath(path.toString()));
 
             // metadata save
             return mVideoRepository.save(video);
@@ -71,8 +71,11 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Video get(String videoId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+        
+        Video video = mVideoRepository.findById(videoId)
+            .orElseThrow(() -> new RuntimeException("Video not found"));
+
+        return video;
     }
 
     @Override
@@ -83,8 +86,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public List<Video> getAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        return mVideoRepository.findAll();
     }
     
 }
